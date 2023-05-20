@@ -25,3 +25,17 @@
 #container a {
   text-decoration: none;
 }
+
+/* Product List */
+
+.product-list {
+  padding-top:0;
+}
+
+.product-list .image {
+  object-fit: contain;
+}
+
+.search, .sort {
+  width: 100%;
+}

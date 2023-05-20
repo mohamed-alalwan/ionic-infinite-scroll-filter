@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import {IonContent} from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  @ViewChild('content') content!: IonContent;
 
   public products: any = [];
   public shownProducts: any = [];
@@ -20,6 +22,11 @@ export class HomePage {
   ngOnInit(): void {
     this.appendProducts();
     this.loadMore(null);
+  }
+
+  async ngAfterViewInit(): Promise<void> {
+    const scrollElement = await this.content.getScrollElement();
+    scrollElement.style.paddingBottom = '0';
   }
 
   appendProducts(): void {
@@ -160,7 +167,7 @@ export class HomePage {
       Price: 12.99,
       FullScanPath: 'https://static.zara.net/photos///2021/I/2/1/p/4400/002/012/2/w/1126/4400002012_6_1_1.jpg?ts=1634640583696',
     });
-    
+
     this.products.push({
       CustomerCategoryTypeTitle: 'Department Store',
       CategoryName: 'Home',
@@ -169,7 +176,7 @@ export class HomePage {
       Price: 599.99,
       FullScanPath: 'https://www.ikea.com/bh/en/images/products/angersby-2-seat-sofa-knisa-light-grey__0770896_pe755642_s5.jpg?f=xs',
     });
-    
+
     this.products.push({
       CustomerCategoryTypeTitle: 'Cosmetics',
       CategoryName: 'Beauty & Health',
@@ -178,7 +185,7 @@ export class HomePage {
       Price: 59.99,
       FullScanPath: 'https://static.beautytocare.com/media/catalog/product/cache/global/image/1300x1300/85e4522595efc69f496374d01ef2bf13/c/h/chloe-nomade-eau-de-parfum-naturelle.jpg',
     });
-    
+
     this.products.push({
       CustomerCategoryTypeTitle: 'Department Store',
       CategoryName: 'Electronics',
@@ -316,7 +323,7 @@ export class HomePage {
 
   }
 
-  getProducts() {
+  getProducts(): any[] {
     if(this.search){
       return this.products.filter((product:any) => product.ItemName.toLowerCase().includes(this.search.toLowerCase()));
     }
@@ -327,27 +334,27 @@ export class HomePage {
     setTimeout(() => {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-  
+
       // load the next set of items from your existing array of products
       const nextItems = this.getProducts().slice(startIndex, endIndex);
-  
+
       // append the next set of items to the existing items
       this.shownProducts = [...this.shownProducts, ...nextItems];
-  
+
       // increment the page number
       this.currentPage++;
-      if(event)
-      event.target.complete();
+
+      event?.target.complete();
     }, 500);
   }
 
-  restartInfiniteScroll(){
+  restartInfiniteScroll(): void {
     this.currentPage = 1;
     this.shownProducts = [];
     this.loadMore(null);
   }
 
-  setSort(event: any) {
+  setSort(event: any): void {
     this.sort = event.target.value;
     console.log(this.sort);
 
@@ -360,7 +367,7 @@ export class HomePage {
     }
   }
 
-  setSearch(event: any) {
+  setSearch(event: any): void {
     this.search = event.target.value;
     console.log(this.search);
 
