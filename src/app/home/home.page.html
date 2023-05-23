@@ -12,7 +12,6 @@
   <ion-select #listSelector class="list-select" [value]="this.selectedList" (ionChange)="selectList()">
     <ion-select-option value="0">Favorites</ion-select-option>
     <ion-select-option value="1">Wish list</ion-select-option>
-    <!-- <ion-select-option value="2">Option 3</ion-select-option> -->
 
     <ng-container *ngFor="let list of customlists; index as i;">
       <ion-select-option value="2-{{i}}">{{list.Name}}</ion-select-option>
