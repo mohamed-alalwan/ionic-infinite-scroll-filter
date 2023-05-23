@@ -7,10 +7,23 @@
 </ion-header>
 
 <ion-content class='content' #content [fullscreen]="true">
+
+  <!--Select List-->
+  <ion-select #listSelector class="list-select" [value]="this.selectedList" (ionChange)="selectList()">
+    <ion-select-option value="0">Favorites</ion-select-option>
+    <ion-select-option value="1">Wish list</ion-select-option>
+    <!-- <ion-select-option value="2">Option 3</ion-select-option> -->
+
+    <ng-container *ngFor="let list of customlists; index as i;">
+      <ion-select-option value="2-{{i}}">{{list.Name}}</ion-select-option>
+    </ng-container>
+
+  </ion-select>
+
   <!--Filter-->
   <ion-item>
     <ion-item class="search" >
-      <ion-input placeholder="Search..." (input)="setSearch($event)"></ion-input>
+      <ion-input placeholder="Search..." [value]="search" (input)="setSearch($event)"></ion-input>
       <ion-icon name="search"></ion-icon>
     </ion-item>
 
@@ -22,29 +35,31 @@
 
   <!--ion list-->
   <ion-list class="product-list">
-    <ion-item
-      *ngFor="let product of shownProducts"
-      (click)="null; product.isActive = true;"
-      [ngClass]="{'active': product.isActive}"
-      >
-      <ion-thumbnail slot="start">
-        <img class="image" [src]="product.FullScanPath">
-      </ion-thumbnail>
-      <ion-label>
-        <h2>{{ product.ItemName }}</h2>
-        <h3>{{ product.SubCategoryName }}</h3>
-        <p>{{ product.CustomerCategoryTypeTitle }} - {{ product.CategoryName }}</p>
-        <p>Price: {{ product.Price }}</p>
-      </ion-label>
-    </ion-item>
+    <ion-item-sliding *ngFor="let product of shownProducts; index as i">
+      <ion-item [ngClass]="{'active': product.isActive}">
+        <ion-thumbnail slot="start">
+          <img class="image" [src]="product.FullScanPath">
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ product.ItemName }}</h2>
+          <h3>{{ product.SubCategoryName }}</h3>
+          <p>{{ product.CustomerCategoryTypeTitle }} - {{ product.CategoryName }}</p>
+          <p>Price: {{ product.Price }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteItem(i)">
+          Delete
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
   <!--Infinite Scroll-->
   <ion-infinite-scroll
     (ionInfinite)="loadMore($event)"
-    threshold="100px"
     [disabled]='this.shownProducts.length === this.getProducts().length'>
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more items...">
+    <ion-infinite-scroll-content>
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
