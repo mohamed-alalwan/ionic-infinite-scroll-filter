@@ -1,0 +1,17 @@
+<!--star rating-->
+<div class="stars-group">
+  <div class="stars rating" [style]="{width: (getAverageReviewRating() / 5 * 100) + '%'}">
+    <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+      <ion-icon
+      name="star"
+      class="active">
+      </ion-icon>
+    </ng-container>
+  </div>
+
+  <div class="stars">
+    <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+      <ion-icon name="star"></ion-icon>
+    </ng-container>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import {IonContent, IonSelect} from '@ionic/angular';
 import { ListsService } from '../lists.service';
+import { StarRatingComponent } from '../star-rating/star-rating.component';
 
 @Component({
   selector: 'app-home',
@@ -48,6 +49,16 @@ export class HomePage {
   async ngAfterViewInit(): Promise<void> {
     const scrollElement = await this.content.getScrollElement();
     scrollElement.style.paddingBottom = '0';
+  }
+
+  getAverageReviewRating(): number {
+    // Generate a random number between 0 and 5
+    const rating = Math.random() * 5;
+
+    // Round the rating to either 1 decimal place or integer
+    const roundedRating = Math.random() < 0.5 ? Math.round(rating) : Math.round(rating * 10) / 10;
+
+    return roundedRating;
   }
 
   //get lists

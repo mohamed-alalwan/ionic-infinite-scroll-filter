@@ -43,6 +43,10 @@
           <h2>{{ product.ItemName }}</h2>
           <h3>{{ product.SubCategoryName }}</h3>
           <p>{{ product.CustomerCategoryTypeTitle }} - {{ product.CategoryName }}</p>
+
+          <!--star rating-->
+          <app-star-rating [rating]="getAverageReviewRating()"></app-star-rating>
+
           <p>Price: {{ product.Price }}</p>
         </ion-label>
       </ion-item>
